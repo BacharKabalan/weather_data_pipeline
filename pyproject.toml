@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "weather-data-pipeline"
+version = "0.1.0"
+description = "A real-time data pipeline to fetch weather data, process it, and visualize it with Kafka, Flink, InfluxDB, and Grafana."
+authors = ["BacharKabalan <basharkabalan@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+kafka-python = "^2.0.2"
+apache-flink = "^1.20.0"
+influxdb = "^5.3.2"
+requests = "^2.32.3"
+influxdb-client = "^1.47.0"
+
+[tool.poetry.group.dev.dependencies]
+influxdb = "^5.3.2"
+requests = "^2.32.3"
+PyYAML = "^6.0.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,16 @@
+api:
+  url: "https://api.openweathermap.org/data/2.5/weather"
+  key: "e54157496385911361b0bb190fb88ef4"
+  city: "London"
+  interval: 60  # Fetch interval in seconds
+
+kafka:
+  bootstrap_servers: "localhost:9092"
+  topic: "weather_data"
+
+influxdb:
+  url: "http://localhost:8086"
+  token: "SUNzP4X6yPqjfP8WULplbkYXZWUkI0g2zwF6d_x9T5eBVR4iivZzkjShyu5hNQN2nLwDn6wPEIzV5iRY-WC6-Q=="
+  org: "weather_data"
+  bucket: "weather"
+
