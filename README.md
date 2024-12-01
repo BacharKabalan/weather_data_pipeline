@@ -67,12 +67,21 @@ The repository is organized as follows:
 
 weather_data_pipeline/
 ├── data_fetcher.py          # Fetches data from OpenWeatherMap and sends it to Kafka
+
 ├── data_processor.py        # Processes Kafka messages and sends them to InfluxDB
+
 ├── flink_data_writer.py     # Processes data with Flink and publishes results to Kafka
+
 ├── Dockerfile.fetcher       # Dockerfile for data_fetcher.py
+
 ├── Dockerfile.flink_writer  # Dockerfile for flink_data_writer.py
+
 ├── Dockerfile.processor     # Dockerfile for data_processor.py
+
 ├── config.yaml              # Configuration file for API keys and settings
+
 ├── docker-compose.yml       # Docker Compose file to orchestrate services
+
 ├── README.md                # Project documentation
+
 └── requirements.txt         # Python dependencies
