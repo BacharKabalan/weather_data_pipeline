@@ -15,9 +15,6 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      # KAFKA_MESSAGE_MAX_BYTES: 1048576000  # 1GB max message size
-      # KAFKA_REPLICA_FETCH_MAX_BYTES: 1048576000
-    # hostname: broker
     depends_on:
       - zookeeper
     healthcheck:
