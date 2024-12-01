@@ -1,0 +1,11 @@
+rest.port: 8081
+blob.server.port: 6124
+taskmanager.memory.process.size: 1728m
+parallelism.default: 1
+jobmanager.rpc.address: jobmanager
+taskmanager.numberOfTaskSlots: 2
+rest.address: jobmanager
+jobmanager.memory.process.size: 1600m
+python.environment: /home/bash1989/anaconda3/envs/ml/bin/python3
+query.server.port: 6125
+rest.bind-address: 0.0.0.0

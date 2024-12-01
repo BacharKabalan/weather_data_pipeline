@@ -5,12 +5,12 @@ api:
   interval: 60  # Fetch interval in seconds
 
 kafka:
-  bootstrap_servers: "localhost:9092"
+  bootstrap_servers: "kafka:9092"
   topic: "weather_data"
 
 influxdb:
-  url: "http://localhost:8086"
-  token: "SUNzP4X6yPqjfP8WULplbkYXZWUkI0g2zwF6d_x9T5eBVR4iivZzkjShyu5hNQN2nLwDn6wPEIzV5iRY-WC6-Q=="
+  url: "http://influxdb:8086"
+  token: "L2BZT766lx7qukBxnbScuzF13ZK5UKm_1-WhzVPLUWV28ix4fhgsqGiTx4eQVbgOwRrMFZjiVehNGj_FULlm5Q=="
   org: "weather_data"
   bucket: "weather"
 

@@ -5,7 +5,8 @@ from pyflink.common.serialization import SimpleStringSchema # Schema for simple 
 from pyflink.datastream.window import Time # Importing time windowing functionality for streaming aggregation.
 import json # Importing JSON library for parsing incoming weather data.
 import requests # Importing requests library to send HTTP requests to InfluxDB.
-from pyflink.common import Configuration
+from pyflink.common import Configuration, Row
+
 
 
 #kafka and influxDB configuration
@@ -14,11 +15,9 @@ KAFKA_INPUT_TOPIC = 'weather_data'# input kafka topic name for raw weather data
 KAFKA_OUTPUT_TOPIC = 'aggregated_weather_data'#output kafka topic for aggregated weather data
 
 INFLUXDB_URL = 'http://influxdb:8086'#influx db address
-INFLUXDB_TOKEN = 'VRJTWKoPsBgslU2sWskDY86CxfVeC0hcFGoKYIP_013bVjraesGvHkDjsIDYAY4y7r5lYW5vvy6ACh80mpdRvg=='#athentification token for influxdb
+INFLUXDB_TOKEN = 'L2BZT766lx7qukBxnbScuzF13ZK5UKm_1-WhzVPLUWV28ix4fhgsqGiTx4eQVbgOwRrMFZjiVehNGj_FULlm5Q=='#athentification token for influxdb
 INFLUXDB_ORG = 'weather_data'#influxdb organisation name
 INFLUXDB_BUCKET = 'weather'#influxdb bucket name
-
-
 
 
 #helper function to write data to influxDB
@@ -38,13 +37,14 @@ def write_to_influxdb(data):
 
 #flink job
 def main():
-    #set the python interpreter path
-    global_job_parameters = {
-    "python.executable": "/usr/bin/python3"
-    }
-    #set up the execution environment
-    env = StreamExecutionEnvironment.get_execution_environment()
-    env.get_config().set_global_job_parameters(global_job_parameters)
+    # Step 1: Set the configuration for Python execution mode and bundle size
+    config = Configuration()
+
+    # Specify `PROCESS` mode
+    config.set_string("python.execution-mode", "process")
+    env = StreamExecutionEnvironment.get_execution_environment(config)
+
+
     #configure the time characteristic to processing time
     env.set_stream_time_characteristic(TimeCharacteristic.ProcessingTime)
     #set the parallelism level for the flink job 
@@ -59,10 +59,10 @@ def main():
 
     #kafka producer
     producer = FlinkKafkaProducer(
-        topic = KAFKA_OUTPUT_TOPIC, # publish processed data to the output kafka topic
-        producer_config = {'bootstrap.servers': KAFKA_BROKER}, #kafka broker connection properties
-        serialization_schema = SimpleStringSchema() #serialize messages as simple strings
-    )
+    topic=KAFKA_OUTPUT_TOPIC,  # publish processed data to the output kafka topic
+    producer_config={'bootstrap.servers': KAFKA_BROKER},  # kafka broker connection properties
+    serialization_schema=SimpleStringSchema()  # use SimpleStringSchema for serializing strings
+)
     
     #ingest weather data
     stream = env.add_source(consumer) # add the kafka consumer as a data source
@@ -85,12 +85,14 @@ def main():
             write_to_influxdb(influx_data)
 
             #return a formatted string for kafka output
-            return f"{city}: Temp={temp}, Humidity={humidity}, Heat Index={heat_index}"
+            return Row(city,temp,humidity,heat_index)#f"{city}: Temp={temp}, Humidity={humidity}, Heat Index={heat_index}"
         except Exception as e:
             #log errors
             print(f"Error processing data: {e}")
             return ""
-
+    result = stream.execute_and_collect()
+    for element in result:
+        print(element)
     processed_stream = stream.map(process_weather_data)
 
     

@@ -9,6 +9,7 @@ with open('config.yaml') as f:
 
 #create kafka consumer to read data ingested by kafka
 consumer = KafkaConsumer(config['kafka']['topic'], bootstrap_servers = config['kafka']['bootstrap_servers'])
+print("Kafka consumer initialized successfully!")
 
 #create influxdb client to save the data in a database
 influx_client = InfluxDBClient(url=config['influxdb']['url'], token=config['influxdb']['token'], org=config['influxdb']['org'])
