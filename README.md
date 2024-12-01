@@ -66,6 +66,7 @@ This pipeline fetches weather data from the **OpenWeatherMap API**, processes it
 The repository is organized as follows:
 
 weather_data_pipeline/
+
 ├── data_fetcher.py          # Fetches data from OpenWeatherMap and sends it to Kafka
 
 ├── data_processor.py        # Processes Kafka messages and sends them to InfluxDB
